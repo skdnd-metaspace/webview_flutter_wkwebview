@@ -29,6 +29,21 @@
   return self;
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+ 
+    NSArray *gestures = self.superview.gestureRecognizers;
+       
+    for (int i = 0; i < gestures.count; i++) {
+        UIGestureRecognizer *gest = gestures[i];
+        if([gest isKindOfClass: NSClassFromString(@"DelayingGestureRecognizer")]) {
+            gest.enabled = NO;
+        }
+      
+    }
+    
+   return [super hitTest:point withEvent:event];
+}
+
 - (void)setFrame:(CGRect)frame {
   [super setFrame:frame];
   // Prevents the contentInsets from being adjusted by iOS and gives control to Flutter.
